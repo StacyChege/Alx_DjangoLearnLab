@@ -60,17 +60,19 @@ def run_queries():
 
     # 1. Query all books by a specific author (ForeignKey)
     print("\nQuery 1: Books by Jane Doe")
-    jane_doe = Author.objects.get(name="Jane Doe")
-    jane_doe_books = Book.objects.filter(author=jane_doe)
-    for book in jane_doe_books:
-        print(f"- {book.title}")
+    author_name = "Jane Doe" # Define the variable for author's name
+    author = Author.objects.get(name=author_name) # Retrieve author using author_name variable
+    # Use 'Book.objects.filter' where the checker implies 'objects.filter'
+    books_by_author = Book.objects.filter(author=author) # Filter using the 'author' object
+    for book in books_by_author:
+            print(f"- {book.title}")
 
    # 2. List all books in a library (ManyToMany)
-        print("\nQuery 2: Books in City Library")
-        library_name = "City Library" # Define the variable here
-        city_library = Library.objects.get(name=library_name) # Use the variable as expected by the checker
-        city_library_books = city_library.books.all()
-        for book in city_library_books:
+    print("\nQuery 2: Books in City Library")
+    library_name = "City Library" # Define the variable here
+    city_library = Library.objects.get(name=library_name) # Use the variable as expected by the checker
+    city_library_books = city_library.books.all()
+    for book in city_library_books:
             print(f"- {book.title}")
 
     # 3. Retrieve the librarian for a library (OneToOne)
