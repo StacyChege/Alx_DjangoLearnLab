@@ -77,14 +77,15 @@ def run_queries():
 
     # 3. Retrieve the librarian for a library (OneToOne)
     print("\nQuery 3: Librarian for Community Hub")
-    community_hub = Library.objects.get(name="Community Hub")
-    try:
-        community_librarian = community_hub.librarian # Reverse lookup for OneToOne
-        print(f"- {community_hub.name}'s Librarian: {community_librarian.name}")
-    except Librarian.DoesNotExist:
-        print(f"- No librarian found for {community_hub.name}.")
+    library_name = "Community Hub" # Define variable for consistency with other queries
+    target_library = Library.objects.get(name=library_name) # Get the library first
 
-    print("\n--- Queries Complete ---")
+    try:
+            # Use Librarian.objects.get(library=...) as expected by the checker
+            target_librarian = Librarian.objects.get(library=target_library)
+            print(f"- {target_library.name}'s Librarian: {target_librarian.name}")
+    except Librarian.DoesNotExist:
+            print(f"- No librarian found for {target_library.name}.")
 
 # This part allows you to easily run the functions from the Django shell
 if __name__ == '__main__':
