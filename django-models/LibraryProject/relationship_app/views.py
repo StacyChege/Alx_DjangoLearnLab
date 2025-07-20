@@ -5,7 +5,7 @@ from .models import Book, Library
 from .models import Library
 
 # Function-based view to list all books
-def book_list_view(request):
+def list_books(request):
     books = Book.objects.all() # Retrieve all books from the database
     context = {
         'books': books
