@@ -11,8 +11,8 @@ def book_list_view(request):
     context = {
         'books': books
     }
-    # Render the 'list_books.html' template, passing the books data
-    return render(request, 'list_books.html', context)
+    # Render the 'relationship_app/list_books.html' template, passing the books data
+    return render(request, 'relationship_app/list_books.html', context) # <--- Change the template path here
 
 # Class-based view to display details for a specific library
 class LibraryDetailView(DetailView):
