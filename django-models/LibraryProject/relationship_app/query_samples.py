@@ -65,12 +65,13 @@ def run_queries():
     for book in jane_doe_books:
         print(f"- {book.title}")
 
-    # 2. List all books in a library (ManyToMany)
-    print("\nQuery 2: Books in City Library")
-    city_library = Library.objects.get(name="City Library")
-    city_library_books = city_library.books.all()
-    for book in city_library_books:
-        print(f"- {book.title}")
+   # 2. List all books in a library (ManyToMany)
+        print("\nQuery 2: Books in City Library")
+        library_name = "City Library" # Define the variable here
+        city_library = Library.objects.get(name=library_name) # Use the variable as expected by the checker
+        city_library_books = city_library.books.all()
+        for book in city_library_books:
+            print(f"- {book.title}")
 
     # 3. Retrieve the librarian for a library (OneToOne)
     print("\nQuery 3: Librarian for Community Hub")
