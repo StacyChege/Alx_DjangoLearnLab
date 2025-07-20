@@ -1,7 +1,7 @@
 # relationship_app/views.py
 from django.shortcuts import render
 from django.views.generic import DetailView # For class-based view
-from .models import  Library # <--- ENSURE THIS LINE IS EXACTLY AS SHOWN (importing Library)
+from .models import Book, Library
 
 # Function-based view to list all books
 def book_list_view(request):
