@@ -12,7 +12,7 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     # URL for the function-based view (lists all books)
     # Example: /relationship/books/
-    path('books/', views.book_list_view, name='book_list'),
+    path('books/', views.list_books, name='book_list'),
 
     # URL for the class-based view (details for a specific library)
     # The <int:pk> captures the primary key from the URL (e.g., /relationship/libraries/1/)
