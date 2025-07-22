@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User # Import Django's built-in User model
+from django.db.models.signals import post_save # For signals
+from django.dispatch import receiver # For signals
 
 class Author(models.Model):
     name = models.CharField(max_length=100)
@@ -30,3 +33,31 @@ class Librarian(models.Model):
 
     def __str__(self):
         return f"{self.name} (Librarian of {self.library.name})"
+
+ROLE_CHOICES = (
+    ('Admin', 'Admin'),
+    ('Librarian', 'Librarian'),
+    ('Member', 'Member'),
+)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Member')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.get_role_display()}"
+    
+    # Signal to automatically create a UserProfile when a new User is created
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+# Signal to save the UserProfile when the User is saved
+# This handles cases where a user might be updated (e.g., in admin)
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    # Ensure the userprofile attribute exists before trying to save it.
+    # This prevents errors if for some reason a user is saved before their profile is created (edge cases).
+    if hasattr(instance, 'userprofile'):
+        instance.userprofile.save()
