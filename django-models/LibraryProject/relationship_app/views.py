@@ -5,7 +5,8 @@ from .models import Book, Library, UserProfile
 from django.contrib.auth.forms import UserCreationForm # For registration form
 from django.contrib.auth import login # To automatically log in user after registration
 from django.urls import reverse_lazy # For redirects (useful with class-based views)
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required# Import decorators
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import permission_required# Import decorators
 
 from .models import Book, Library
 
