@@ -17,7 +17,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='relationship_app/login.html'), name='login'),
 
     # Logout view - redirects to 'login' after logout
-    path('logout/', LogoutView.as_view(next_page='relationship_app:login'), name='logout'),
+    path('logout/', LogoutView.as_view(template_name='relationship_app/logout.html', next_page='relationship_app:login'), name='logout'),
 
     # Registration view
     path('register/', views.register, name='register'),
