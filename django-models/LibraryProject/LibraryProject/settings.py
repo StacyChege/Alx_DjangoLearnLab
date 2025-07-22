@@ -124,5 +124,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/login'  
+# Authentication redirects
+# URL to redirect to after successful login (uses app namespace)
+LOGIN_REDIRECT_URL = '/relationship/books/' # Or reverse_lazy('relationship_app:book_list') for more robustness
+
+# URL to redirect to if user tries to access a login_required view without being logged in
+# LOGIN_URL = '/relationship/login/' # Often configured if you use @login_required decorator

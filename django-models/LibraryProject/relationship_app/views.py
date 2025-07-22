@@ -1,8 +1,10 @@
 # relationship_app/views.py
-from django.shortcuts import render, redirect
-from django.views.generic.detail import DetailView
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import  UserCreationForm, AuthenticationForm
+from django.shortcuts import render, redirect # Import redirect
+from django.views.generic import DetailView
+from .models import Book, Library
+from django.contrib.auth.forms import UserCreationForm # For registration form
+from django.contrib.auth import login # To automatically log in user after registration
+from django.urls import reverse_lazy # For redirects (useful with class-based views)
 
 from .models import Book, Library
 
@@ -22,16 +24,16 @@ class LibraryDetailView(DetailView):
 
 # ---------------- AUTHENTICATION VIEWS ----------------
 
-# Register View
+# Function-based view for user registration
 def register_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('/')
+            user = form.save() # Save the new user
+            login(request, user) # Log the user in immediately after registration
+            return redirect('relationship_app:book_list') # Redirect to book list page after registration
     else:
-        form = UserCreationForm()
+        form = UserCreationForm() # Create an empty form for GET requests
     return render(request, 'relationship_app/register.html', {'form': form})
 
 # Login View
