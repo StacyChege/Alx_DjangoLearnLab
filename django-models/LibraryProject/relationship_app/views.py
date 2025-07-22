@@ -25,7 +25,7 @@ class LibraryDetailView(DetailView):
 # ---------------- AUTHENTICATION VIEWS ----------------
 
 # Function-based view for user registration
-def register_view(request):
+def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
