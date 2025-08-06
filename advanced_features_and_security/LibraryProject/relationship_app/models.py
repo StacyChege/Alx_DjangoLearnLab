@@ -1,7 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import settings # Import Django's built-in User model
+from django.contrib.auth.models import User # Import Django's built-in User model
 from django.db.models.signals import post_save # For signals
 from django.dispatch import receiver # For signals
+from django.conf import settings
 
 class Author(models.Model):
     name = models.CharField(max_length=100)
@@ -47,7 +48,7 @@ ROLE_CHOICES = (
 )
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Member')
 
     def __str__(self):
