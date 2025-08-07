@@ -13,4 +13,8 @@ class BookList(generics.ListAPIView):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    # This permission class allows authenticated users to create/update/delete books,
+    # but allows anyone to view the list of books.
+
+    permission_classes = [IsAuthenticatedOrReadOnly]  
 
