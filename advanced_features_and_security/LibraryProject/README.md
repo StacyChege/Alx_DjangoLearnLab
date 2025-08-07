@@ -33,3 +33,12 @@ from bookshelf.models import CustomUser
 user = CustomUser.objects.create_user(username='...', password='...', email='...', date_of_birth='...')
 group = Group.objects.get(name='...')
 user.groups.add(group)
+
+
+# Security Measures
+
+- Enabled CSRF protection in all forms using Django’s built-in CSRF middleware and `{% csrf_token %}` tag.
+- Implemented Content Security Policy via `django-csp` to restrict script and style sources.
+- Views use Django ORM to avoid SQL injection vulnerabilities.
+- Input fields are validated using Django forms.
+
