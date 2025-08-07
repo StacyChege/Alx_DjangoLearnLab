@@ -4,6 +4,17 @@ from django.shortcuts import render, redirect
 from .models import Book
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_protect
+from .forms import ExampleForm
+
+def example_form_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Do something with cleaned data
+            return HttpResponse("Form submitted successfully!")
+    else:
+        form = ExampleForm()
+    return render(request, 'bookshelf/form_example.html', {'form': form})
 
 @csrf_protect
 @permission_required('bookshelf.can_create_Book', raise_exception=True)
