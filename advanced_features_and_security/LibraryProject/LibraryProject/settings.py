@@ -56,6 +56,26 @@ CSP_IMG_SRC = ("'self'", 'data:')  # allow inline images
 CSP_FRAME_ANCESTORS = ("'none'",)
 CSP_OBJECT_SRC = ("'none'",)
 
+# Security Settings
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Security Headers
+# X_FRAME_OPTIONS: Prevents your site from being embedded in a frame, protecting against clickjacking attacks.
+X_FRAME_OPTIONS = 'DENY'
+
+# SECURE_CONTENT_TYPE_NOSNIFF: Prevents browsers from "sniffing" the content type of a file,
+# which can mitigate vulnerabilities where a malicious file is misinterpreted.
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# SECURE_BROWSER_XSS_FILTER: Activates the browser's built-in XSS protection,
+# helping to prevent cross-site scripting attacks.
+SECURE_BROWSER_XSS_FILTER = True
 
 
 
