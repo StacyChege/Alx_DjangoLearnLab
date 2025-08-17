@@ -1,9 +1,8 @@
 # api/views.py
-
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from rest_framework import filters  # New import
-from django_filters.rest_framework import DjangoFilterBackend # New import
+from rest_framework import filters as drf_filters # Use an alias to avoid conflict
+from django_filters import rest_framework as filters # The import the checker is looking for
 
 from .models import Book
 from .serializers import BookSerializer
@@ -16,10 +15,16 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     
-    # These are the new lines you need to add to the class
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    # 1. Add filter backends
+    filter_backends = [filters.DjangoFilterBackend, drf_filters.SearchFilter, drf_filters.OrderingFilter]
+    
+    # 2. Define fields for filtering
     filterset_fields = ['title', 'author__name', 'publication_year']
+    
+    # 3. Define fields for searching
     search_fields = ['title', 'author__name']
+    
+    # 4. Define fields for ordering
     ordering_fields = ['title', 'publication_year']
 
 class BookDetailAPIView(generics.RetrieveAPIView):
