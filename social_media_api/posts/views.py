@@ -1,7 +1,6 @@
 # posts/views.py
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, mixins, generics, filters
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics, filters
 from rest_framework.response import Response
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
