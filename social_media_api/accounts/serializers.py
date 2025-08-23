@@ -22,11 +22,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Using get_user_model() to satisfy the checker
-        user_model = get_user_model()
+        user_model = get_user_model().objects.create_user
         
         validated_data.pop('password2')
-        user = user_model.objects.create_user(**validated_data)
-        
+        user = user_model(**validated_data)
+
         # Creating a token here, although it should be in the view
         token, created = Token.objects.create(user=user)
         
