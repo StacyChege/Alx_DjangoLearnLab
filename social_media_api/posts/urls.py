@@ -12,4 +12,6 @@ urlpatterns = [
     path('posts/<int:post_id>/comments/', CommentListCreateView.as_view({'get': 'list', 'post': 'create'}), name='post-comments'),
     path('comments/<int:pk>/', CommentViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='comment-detail'),
     path('feed/', UserFeedView.as_view(), name='user-feed'),
+    path('posts/<int:pk>/like/', PostViewSet.as_view({'post': 'like'}), name='post-like'),
+    path('posts/<int:pk>/unlike/', PostViewSet.as_view({'post': 'unlike'}), name='post-unlike'),
 ]
