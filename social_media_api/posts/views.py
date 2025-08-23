@@ -1,7 +1,8 @@
 
-from rest_framework import viewsets, mixins, filters
+from rest_framework import viewsets, mixins, filters, generics
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Q
 
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
@@ -46,3 +47,13 @@ class CommentListCreateView(viewsets.GenericViewSet,
         post_id = self.kwargs['post_id']
         post = Post.objects.get(id=post_id)
         serializer.save(author=self.request.user, post=post)
+
+
+class UserFeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        following_users = user.following.all()
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')
