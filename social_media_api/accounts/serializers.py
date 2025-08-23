@@ -28,6 +28,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user = user_model.objects.create_user(**validated_data)
         
         # Creating a token here, although it should be in the view
-        token, created = Token.objects.get_or_create(user=user)
+        token, created = Token.objects.create(user=user)
         
         return user
