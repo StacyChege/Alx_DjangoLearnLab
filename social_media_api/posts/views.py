@@ -1,8 +1,10 @@
-
-from rest_framework import viewsets, mixins, filters, generics
+# posts/views.py
+from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, filters
+from rest_framework.response import Response
 from django.db.models import Q
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
@@ -12,8 +14,7 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
-
-    # Add filtering and searching
+    
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['author', 'title']
     search_fields = ['title', 'content']
@@ -47,7 +48,6 @@ class CommentListCreateView(viewsets.GenericViewSet,
         post_id = self.kwargs['post_id']
         post = Post.objects.get(id=post_id)
         serializer.save(author=self.request.user, post=post)
-
 
 class UserFeedView(generics.ListAPIView):
     serializer_class = PostSerializer
