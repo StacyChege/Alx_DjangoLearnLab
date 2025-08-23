@@ -64,15 +64,11 @@ class UserFeedView(generics.ListAPIView):
     
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def like(self, request, pk=None):
-        post = self.get_object()
+        post = generics.get_object_or_404(Post, pk=pk)
         user = request.user
-        
-        # Check if user has already liked the post
-        if Like.objects.filter(user=user, post=post).exists():
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        if not created:
             return Response({'detail': 'You have already liked this post.'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        Like.objects.create(user=user, post=post)
-        
         # Create a notification for the post author
         if user != post.author:
             content_type = ContentType.objects.get_for_model(Post)
@@ -83,14 +79,12 @@ class UserFeedView(generics.ListAPIView):
                 content_type=content_type,
                 object_id=post.id
             )
-
         return Response({'detail': 'Post liked successfully.'}, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def unlike(self, request, pk=None):
-        post = self.get_object()
+        post = generics.get_object_or_404(Post, pk=pk)
         user = request.user
-        
         try:
             like = Like.objects.get(user=user, post=post)
             like.delete()
