@@ -1,10 +1,13 @@
-
+# accounts/serializers.py
 from rest_framework import serializers
 from .models import CustomUser
 from rest_framework.authtoken.models import Token
 
+# accounts/serializers.py
+# ...
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    
 
     class Meta:
         model = CustomUser
