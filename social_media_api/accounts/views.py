@@ -1,19 +1,17 @@
 # accounts/views.py
-from rest_framework import status
+from rest_framework import status, generics, mixins
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import RetrieveUpdateAPIView
-from rest_framework.decorators import api_view, permission_classes
-from django.shortcuts import get_object_or_404
 
+from django.shortcuts import get_object_or_404
 
 from .serializers import UserRegistrationSerializer
 from .models import CustomUser
 
-# User Registration View
 class UserRegistrationView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = UserRegistrationSerializer(data=request.data)
@@ -23,7 +21,6 @@ class UserRegistrationView(APIView):
             return Response({'token': token.key}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Custom Login View (to return the token)
 class CustomObtainAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
@@ -33,19 +30,16 @@ class CustomObtainAuthToken(ObtainAuthToken):
             'user_id': token.user_id,
         })
         
-# User Profile View
 class UserProfileView(RetrieveUpdateAPIView):
     serializer_class = UserRegistrationSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user
-    
 
 class FollowUserView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
-    # This line is needed to pass the checker
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id, *args, **kwargs):
         try:
@@ -61,8 +55,7 @@ class FollowUserView(generics.GenericAPIView):
 
 class UnfollowUserView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
-    # This line is also needed to pass the checker
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     
     def post(self, request, user_id, *args, **kwargs):
         try:
