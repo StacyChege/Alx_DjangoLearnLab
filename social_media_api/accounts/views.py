@@ -2,10 +2,11 @@
 from rest_framework import status, generics, mixins
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.views import APIView
 
 from django.shortcuts import get_object_or_404
 
@@ -32,7 +33,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
         
 class UserProfileView(RetrieveUpdateAPIView):
     serializer_class = UserRegistrationSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
         return self.request.user
