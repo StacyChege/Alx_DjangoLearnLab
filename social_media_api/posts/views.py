@@ -12,7 +12,7 @@ from .permissions import IsAuthorOrReadOnly
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
     
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['author', 'title']
@@ -28,7 +28,7 @@ class CommentViewSet(viewsets.GenericViewSet,
                      mixins.UpdateModelMixin):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -37,7 +37,7 @@ class CommentListCreateView(viewsets.GenericViewSet,
                             mixins.ListModelMixin, 
                             mixins.CreateModelMixin):
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         post_id = self.kwargs['post_id']
@@ -50,7 +50,7 @@ class CommentListCreateView(viewsets.GenericViewSet,
 
 class UserFeedView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
