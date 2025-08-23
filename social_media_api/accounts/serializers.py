@@ -1,12 +1,13 @@
 # accounts/serializers.py
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token # Added this line
-from django.contrib.auth import get_user_model     # Added this line
+from rest_framework.authtoken.models import Token 
+from django.contrib.auth import get_user_model     
 from .models import CustomUser
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    password2 = serializers.CharField()
 
     class Meta:
         model = CustomUser
